@@ -13,31 +13,31 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 
 ```
                          ┌──────────────────────────────────┐
-                         │        pfSense Firewall           │
-                         │     Gateway + Segmentation        │
-                         │         vtnet0 = WAN (NAT)        │
+                         │        pfSense Firewall          │
+                         │     Gateway + Segmentation       │
+                         │         vtnet0 = WAN (NAT)       │
                          └────┬──────┬──────┬──────┬────┬───┘
                               │      │      │      │    │
              ┌────────────────┘      │      │      │    └──────────────────┐
              │                       │      │      │                       │
-   ┌─────────▼──────┐   ┌────────────▼──┐  ┌──────▼──────┐   ┌───────────▼────────┐
-   │  LAN (vtnet1)  │   │CYBER_RANGE    │  │  AD_LAB     │   │  ISOLATED          │
-   │  10.0.0.0/24   │   │(vtnet2)       │  │  (vtnet3)   │   │  (vtnet4)          │
-   │                │   │10.6.6.0/24    │  │ 10.80.80.0/24│  │  10.99.99.0/24     │
-   │ Kali Linux     │   │               │  │              │   │                    │
-   │ 10.0.0.2 (Mgmt)│   │ Metasploitable│  │ Win Server   │   │ FLARE VM           │
-   │                │   │ Chronos       │  │ 2019 (DC)    │   │ REMnux             │
-   └────────────────┘   │ (CTF VMs)     │  │ Win 10 x2    │   └────────────────────┘
-                        └───────────────┘  └─────────────┘
-                                                               ┌────────────────────┐
-                                                               │  SECURITY (vtnet5) │
-                                                               │  10.10.10.0/24     │
-                                                               │                    │
-                                                               │ Tsurugi (DFIR)     │
-                                                               │ 10.10.10.2         │
-                                                               │ Ubuntu/Splunk      │
-                                                               │ 10.10.10.13        │
-                                                               └────────────────────┘
+   ┌─────────▼──────┐   ┌────────────▼──┐   │   ┌──▼───────────┐  ┌────────▼───────────┐
+   │  LAN (vtnet1)  │   │CYBER_RANGE    │   │   │  AD_LAB      │  │  ISOLATED          │
+   │  10.0.0.0/24   │   │(vtnet2)       │   │   │  (vtnet3)    │  │  (vtnet4)          │
+   │                │   │10.6.6.0/24    │   │   │ 10.80.80.0/24│  │  10.99.99.0/24     │
+   │ Kali Linux     │   │               │   │   │              │  │                    │
+   │ 10.0.0.2 (Mgmt)│   │ Metasploitable│   │   │ Win Server   │  │ FLARE VM           │
+   │                │   │ Chronos       │   │   │ 2019 (DC)    │  │ REMnux             │
+   └────────────────┘   │ (CTF VMs)     │   │   │ Win 10 x2    │  └────────────────────┘
+                        └───────────────┘   │   └──────────────┘
+                                 ┌──────────▼─────────┐
+                                 │  SECURITY (vtnet5) │
+                                 │  10.10.10.0/24     │
+                                 │                    │
+                                 │ Tsurugi (DFIR)     │
+                                 │ 10.10.10.2         │
+                                 │ Ubuntu/Splunk      │
+                                 │ 10.10.10.13        │
+                                 └────────────────────┘
 ```
 
 ---
@@ -162,22 +162,15 @@ See: [`/malware-analysis/file-transfer-workflow.md`](./malware-analysis/file-tra
 soc-home-lab/
 ├── README.md
 ├── network/
-│   ├── pfsense-config.md          # Full pfSense setup and firewall rules
-│   └── network-diagram.md         # Topology documentation
+│   └── pfsense-config.md          # Interface config, subnets, and all firewall rules
 ├── active-directory/
-│   ├── ad-setup.md                # DC, DHCP, DNS, GPO configuration
-│   └── attack-simulations.md      # AD attack scenarios and detections
+│   └── ad-setup.md                # DC build, DHCP, DNS, GPOs, attack simulations
 ├── malware-analysis/
-│   ├── flare-vm-setup.md          # FLARE VM build and configuration
-│   ├── remnux-setup.md            # REMnux setup notes
 │   └── file-transfer-workflow.md  # SCP workflow from SECURITY to ISOLATED
 ├── dfir/
-│   └── tsurugi-setup.md           # Tsurugi Linux DFIR environment
-├── splunk/
-│   ├── splunk-setup.md            # Splunk install and Universal Forwarder config
-│   └── dashboards.md              # Detection dashboards
-└── docs/
-    └── incident-reports/          # Structured IR reports per scenario
+│   └── tsurugi-setup.md           # Tsurugi Linux DFIR environment and tool inventory
+└── splunk/
+    └── splunk-setup.md            # Splunk install, Universal Forwarder, detection rules
 ```
 
 ---
