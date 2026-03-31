@@ -195,6 +195,6 @@ soc-home-lab/
 ---
 
 ## 🔗 Related Repositories
-
+- [incident-response-reports](https://github.com/Qwortie/SOC-Home-Lab/docs/incident-reports) - Full IR reports
 - [splunk-detection-rules](https://github.com/Qwortie/splunk-detection-rules) — SPL detection rules used in this lab
 - [malware-analysis-reports](https://github.com/Qwortie/malware-analysis-reports) — Write-ups from the ISOLATED malware lab
