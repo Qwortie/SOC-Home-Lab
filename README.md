@@ -195,4 +195,4 @@ soc-home-lab/
 ---
 
 ## 🔗 Related Repositories
-- [incident-response-reports](https://github.com/Qwortie/SOC-Home-Lab/docs/incident-reports) - Full IR reports
+- [incident-response-reports](https://github.com/Qwortie/SOC-Home-Lab/blob/main/docs/incident-reports/README.md) - Full IR reports
