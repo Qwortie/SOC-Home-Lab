@@ -26,7 +26,7 @@ All attack techniques are mapped to the **MITRE ATT&CK** framework.
 | ID | Title | MITRE Techniques | Severity | Status |
 |---|---|---|---|---| 
 | [IR-001](./IR-001-tempest-full-chain.md) | Tempest Full Attack Chain | T1566.001, T1059.001, T1547.001, T1134.001, T1027 / T1059.001, T1552.001,  T1046 / T1082,  T1572, T1071.001 | Critical | ✅  Complete |
-
+| [IR-002](./IR-002-boogeyman.md) | Operation Boogeyman — 3-Wave Campaign | T1566, T1059, T1053, T1548, T1003, T1048, T1486 + 12 more | Critical✅ | Complete |
 ---
 
 ## Report Types
