@@ -25,8 +25,8 @@ All attack techniques are mapped to the **MITRE ATT&CK** framework.
 
 | Report  | Title | MITRE Techniques | Severity | Status |
 |---|---|---|---|---| 
-| [IR-001](./IR-001-tempest-full-chain.md) | Tempest Full Attack Chain | T1566.001, T1059.001, T1547.001, T1134.001, T1027 / T1059.001, T1552.001,  T1046 / T1082,  T1572, T1071.001 | Critical | ✅ |
-| [IR-002](./IR-002-boogeyman.md) | Operation Boogeyman — 3 Wave Campaign | T1566, T1059, T1053, T1548, T1003, T1048, T1486 + 12 more | Critical | ✅ |
+| [IR-001-CHAIN](./IR-001-tempest-full-chain.md) | Tempest Full Attack Chain | T1566.001, T1059.001, T1547.001, T1134.001, T1027 / T1059.001, T1552.001,  T1046 / T1082,  T1572, T1071.001 | Critical | ✅ |
+| [IR-002-CHAIN](./IR-002-boogeyman.md) | Operation Boogeyman — 3 Wave Campaign | T1566, T1059, T1053, T1548, T1003, T1048, T1486 + 12 more | Critical | ✅ |
 ---
 
 ## Report Types
@@ -69,7 +69,7 @@ The Splunk SPL queries used to detect the techniques documented in these reports
 | ID | Scenario | MITRE Techniques | Status |
 |---|---|---|---|
 | IR-001 | Full Attack Chain | 10 Techniques | ✅ Complete |
-| IR-002 | Pass-the-Hash Lateral Movement | T1550.002 | 🔄 Pending |
+| IR-002 | 3 Wave Campaign | 19 Techniques | ✅ Complete |
 | IR-003 | Kerberoasting | T1558.003 | 🔄 Pending |
 | IR-004 | Scheduled Task Persistence | T1053.005 | 🔄 Pending |
 | IR-005 | Password Spraying | T1110.003 | 🔄 Pending |
