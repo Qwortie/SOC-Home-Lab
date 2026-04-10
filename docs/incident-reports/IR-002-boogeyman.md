@@ -3,7 +3,7 @@
 **Report ID:** IR-002
 **Classification:** Internal
 **Campaign Name:** Operation Boogeyman
-**Date of Report:** 4-7-26>
+**Date of Report:** 4-7-26
 **Lead Analyst:** Christopher Rice
 **Status:** Resolved
 **Severity:** Critical
