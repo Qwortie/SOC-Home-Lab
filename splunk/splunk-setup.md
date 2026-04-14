@@ -10,7 +10,7 @@
 | Splunk Web UI | http://10.10.10.13:8000 |
 | Receive Port | 9997 (Universal Forwarder data) |
 | Management Port | 8089 |
-| Splunk Version | 9.x Enterprise |
+| Splunk Version | 10.0.5 Enterprise |
 
 ---
 
