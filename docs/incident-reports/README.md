@@ -60,7 +60,7 @@ Each report contains the following sections:
 ## Detection Rules
 
 The Splunk SPL queries used to detect the techniques documented in these reports are maintained in the [splunk-detection-rules](https://github.com/Qwortie/splunk-detection-rules) repository.
-** COMING SOON **
+
 
 ---
 
