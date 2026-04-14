@@ -88,7 +88,7 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 | VM | OS | IP | Purpose |
 |---|---|---|---|
 | Tsurugi Linux | Tsurugi 2023.2 | 10.10.10.2 (static) | DFIR — forensics and IR tools |
-| Ubuntu/Splunk | Ubuntu 22.04 LTS | 10.10.10.13 | SIEM — Splunk Enterprise 9.x |
+| Ubuntu/Splunk | Ubuntu 22.04 LTS | 10.10.10.13 | SIEM — Splunk Enterprise 10.0.5 |
 
 ---
 
@@ -189,7 +189,7 @@ soc-home-lab/
 | Windows Malware Analysis | FLARE VM | Latest | ISOLATED |
 | Linux Malware Analysis | REMnux | 7 | ISOLATED |
 | DFIR | Tsurugi Linux | 2023.2 | SECURITY |
-| SIEM | Splunk Enterprise | 9.x | SECURITY |
+| SIEM | Splunk Enterprise | 10.0.5 | SECURITY |
 | SIEM Host | Ubuntu | 22.04 LTS | SECURITY |
 
 ---
