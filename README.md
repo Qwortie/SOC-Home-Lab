@@ -36,7 +36,7 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
                                  │                    │
                                  │ Tsurugi (DFIR)     │
                                  │ 10.10.10.2         | 
-                                 | Ubuntu/Splunk      |
+                                 | Ubuntu/Wazuh       |
                                  | 10.10.10.3         │
                                  │ Ubuntu/Splunk      │
                                  │ 10.10.10.13        │
