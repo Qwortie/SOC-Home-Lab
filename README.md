@@ -3,6 +3,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-VirtualBox-183A61?style=flat-square&logo=virtualbox)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk-FF5733?style=flat-square)
+![EDR](https://img.shields.io/badge/EDR-Wazuh-005F73?style=flat-square)
 ![Framework](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-B22222?style=flat-square)
 
 A fully virtualized Security Operations Center environment built on VirtualBox. The lab spans six isolated network segments covering enterprise network simulation, Active Directory attack/defense, malware analysis, DFIR, and SIEM operations — all routed through a pfSense firewall.
@@ -34,7 +35,9 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
                                  │  10.10.10.0/24     │
                                  │                    │
                                  │ Tsurugi (DFIR)     │
-                                 │ 10.10.10.2         │
+                                 │ 10.10.10.2         | 
+                                 | Ubuntu/Splunk      |
+                                 | 10.10.10.3         │
                                  │ Ubuntu/Splunk      │
                                  │ 10.10.10.13        │
                                  └────────────────────┘
@@ -51,7 +54,7 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 | vtnet2 | CYBER_RANGE | 10.6.6.0/24 | Vulnerable VMs for CTF/attack practice |
 | vtnet3 | AD_LAB | 10.80.80.0/24 | Active Directory domain environment |
 | vtnet4 | ISOLATED | 10.99.99.0/24 | Air-gapped malware analysis lab |
-| vtnet5 | SECURITY | 10.10.10.0/24 | DFIR and SIEM tools |
+| vtnet5 | SECURITY | 10.10.10.0/24 | DFIR, EDR and SIEM tools |
 
 ---
 
@@ -73,22 +76,23 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 | VM | OS | IP | Role |
 |---|---|---|---|
 | DC1 | Windows Server 2019 | 10.80.80.2 (static) | Domain Controller, DNS, DHCP, CA |
-| Win10-User1 | Windows 10 Enterprise | DHCP (10.80.80.11+) | Domain client — John |
-| Win10-User2 | Windows 10 Enterprise | DHCP (10.80.80.11+) | Domain client — Jane |
+| Win10-User1 | Windows 10 Enterprise | DHCP (10.80.80.11) | Domain client — John |
+| Win10-User2 | Windows 10 Enterprise | DHCP (10.80.80.12) | Domain client — Jane |
 
 **Domain:** `ad.lab`
 
 ### Malware Analysis Lab (ISOLATED — 10.99.99.0/24)
 | VM | OS | IP | Purpose |
 |---|---|---|---|
-| FLARE VM | Windows 10 Enterprise | 10.99.99.11 | Windows malware analysis |
-| REMnux | REMnux 7 | 10.99.99.12 | Linux malware analysis |
+| FLARE VM | Windows 10 Enterprise | 10.99.99.11 (static) | Windows malware analysis |
+| REMnux | REMnux 7 | 10.99.99.12 (static) | Linux malware analysis |
 
 ### Security (SECURITY — 10.10.10.0/24)
 | VM | OS | IP | Purpose |
 |---|---|---|---|
 | Tsurugi Linux | Tsurugi 2023.2 | 10.10.10.2 (static) | DFIR — forensics and IR tools |
-| Ubuntu/Splunk | Ubuntu 22.04 LTS | 10.10.10.13 | SIEM — Splunk Enterprise 10.0.5 |
+| Ubuntu/Splunk | Ubuntu 22.04 LTS | 10.10.10.13 (static) | SIEM — Splunk Enterprise 10.0.5 |
+| Ubuntu/Wazuh | Ubuntu 22.04 LTS | 10.10.10.3 (static) | EDR/XDR — Wazuh 4.14.5 |
 
 ---
 
@@ -111,9 +115,11 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 ### AD_LAB (10.80.80.0/24)
 | Action | Source | Destination | Notes |
 |---|---|---|---|
-| Block | AD_LAB | WAN subnets | No access to host services |
-| Block | AD_LAB | CYBER_RANGE | Prevent cross-contamination |
-| Allow | AD_LAB | Any | Access to LAN, SECURITY, internet |
+| Block | AD\_LAB | WAN subnets | Any | No access to host services |
+| Block | AD\_LAB | CYBER\_RANGE | Any | Prevent cross-contamination |
+| Allow | AD\_LAB | 10.10.10.3 | 1515 TCP | Wazuh agent enrollment |
+| Allow | AD\_LAB | 10.10.10.3 | 1514 TCP/UDP | Wazuh agent-manager traffic |
+| Allow | AD\_LAB | Any | Any | Access to LAN, SECURITY, internet |
 
 ### ISOLATED (10.99.99.0/24)
 | Action | Source | Destination | Notes |
@@ -144,6 +150,31 @@ The AD environment is intentionally made exploitable using the [vulnerable-AD-pl
 
 ---
 
+## 🛡️ EDR/XDR — Wazuh
+
+Wazuh 4.14.5 is deployed in the SECURITY segment as a dedicated EDR/XDR platform running alongside Splunk. Agents are deployed on all Active Directory endpoints providing real-time behavioral detection alongside Sysmon telemetry.
+
+### Agent Deployment
+
+| Agent | Host | IP | OS | Status |
+| --- | --- | --- | --- | --- |
+| 001 | DC1 | 10.80.80.2 | Windows Server 2019 | Active |
+| 002 | Win10-User1 | 10.80.80.11 | Windows 10 Enterprise | Active |
+| 003 | Win10-User2 | 10.80.80.12 | Windows 10 Enterprise | Active |
+
+### Capabilities Active
+- 3,000+ built-in detection rules mapped to MITRE ATT&CK
+- Sysmon telemetry ingestion (SwiftOnSecurity config — v15.20)
+- Security Configuration Assessment — CIS benchmarks
+- File integrity monitoring
+- Vulnerability detection
+- Archive logging — full event capture via wazuh-archives index
+
+### Wazuh + Splunk Side-by-Side
+Both platforms monitor the same AD endpoints simultaneously. The same attacks surface in both Wazuh alerts and Splunk SPL detections — enabling direct comparison of EDR behavioral detection vs SIEM log correlation.
+
+---
+
 ## 🦠 Malware Analysis Workflow
 
 Files are transferred to the air-gapped ISOLATED subnet using SCP from Tsurugi Linux (SECURITY subnet). Tsurugi is the only machine with SSH access to ISOLATED per firewall rules.
@@ -171,6 +202,10 @@ soc-home-lab/
 │   └── tsurugi-setup.md           # Tsurugi Linux DFIR environment and tool inventory
 └── splunk/
     └── splunk-setup.md            # Splunk install, Universal Forwarder, detection rules
+└── docs/
+├── incident-reports/              # NIST SP 800-61 IR reports
+└── attack-detections/             # Attack simulations with Wazuh/Splunk detection evidence
+
 ```
 
 ---
@@ -178,21 +213,25 @@ soc-home-lab/
 ## 🧰 Full Tools & Software Inventory
 
 | Category | Tool | Version | Segment |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Hypervisor | Oracle VirtualBox | 7.x | Host |
 | Firewall | pfSense CE | 2.7.2 | WAN/All |
 | Management/Attack | Kali Linux | 2023.4 | LAN |
-| CTF Target | Metasploitable 2 | — | CYBER_RANGE |
-| CTF Target | Chronos | — | CYBER_RANGE |
-| Domain Controller | Windows Server 2019 | — | AD_LAB |
-| AD Clients | Windows 10 Enterprise | 22H2 | AD_LAB |
+| CTF Target | Metasploitable 2 | — | CYBER\_RANGE |
+| CTF Target | Chronos | — | CYBER\_RANGE |
+| Domain Controller | Windows Server 2019 | — | AD\_LAB |
+| AD Clients | Windows 10 Enterprise | 22H2 | AD\_LAB |
+| Endpoint Monitoring | Sysmon | 15.20 | AD\_LAB |
 | Windows Malware Analysis | FLARE VM | Latest | ISOLATED |
 | Linux Malware Analysis | REMnux | 7 | ISOLATED |
 | DFIR | Tsurugi Linux | 2023.2 | SECURITY |
-| SIEM | Splunk Enterprise | 10.0.5 | SECURITY |
+| SIEM | Splunk Enterprise | 9.x | SECURITY |
 | SIEM Host | Ubuntu | 22.04 LTS | SECURITY |
+| EDR/XDR | Wazuh | 4.14.5 | SECURITY |
+| EDR Host | Ubuntu | 22.04 LTS | SECURITY |
 
 ---
 
 ## 🔗 Related Repositories
 - [incident-response-reports](https://github.com/Qwortie/SOC-Home-Lab/blob/main/docs/incident-reports/README.md) - Full IR reports
+- [attack-detections](https://github.com/Qwortie/SOC-Home-Lab/blob/main/docs/attack-detections/README.md) - Attack simulations with Wazuh and Splunk detection evidence
