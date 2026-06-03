@@ -112,7 +112,7 @@ Description:
 
 *TheHive alert with embedded VirusTotal enrichment — created automatically by Shuffle within seconds of the Wazuh detection:*
 
-![TheHive enriched alert](./SOARalerts.png)
+![TheHive enriched alert](./enriched-alert.png)
 
 ---
 
