@@ -5,6 +5,7 @@
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk-FF5733?style=flat-square)
 ![EDR](https://img.shields.io/badge/EDR-Wazuh-005F73?style=flat-square)
 ![Framework](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-B22222?style=flat-square)
+![SOAR](https://img.shields.io/badge/SOAR-Shuffle-FF6B35?style=flat-square)
 
 A fully virtualized Security Operations Center environment built on VirtualBox. The lab spans six isolated network segments covering enterprise network simulation, Active Directory attack/defense, malware analysis, DFIR, and SIEM operations — all routed through a pfSense firewall.
 
@@ -37,7 +38,9 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
                                  │ Tsurugi (DFIR)     │
                                  │ 10.10.10.2         | 
                                  | Ubuntu/Wazuh       |
-                                 | 10.10.10.3         │
+                                 | 10.10.10.3         |
+                                 | Ubuntu/Hive/Shuffle|
+                                 | 10.10.10.4         │
                                  │ Ubuntu/Splunk      │
                                  │ 10.10.10.13        │
                                  └────────────────────┘
@@ -93,6 +96,7 @@ A fully virtualized Security Operations Center environment built on VirtualBox. 
 | Tsurugi Linux | Tsurugi 2023.2 | 10.10.10.2 (static) | DFIR — forensics and IR tools |
 | Ubuntu/Splunk | Ubuntu 22.04 LTS | 10.10.10.13 (static) | SIEM — Splunk Enterprise 10.0.5 |
 | Ubuntu/Wazuh | Ubuntu 22.04 LTS | 10.10.10.3 (static) | EDR/XDR — Wazuh 4.14.5 |
+| Ubuntu/TheHive | Ubuntu 24.04 LTS | 10.10.10.4 (static) | SOAR — Shuffle, TheHive, OpenSearch |
 
 ---
 
@@ -175,6 +179,14 @@ Both platforms monitor the same AD endpoints simultaneously. The same attacks su
 
 ---
 
+## 🔁 SOAR Pipeline — Wazuh → Shuffle → TheHive
+
+Automated detection-to-case pipeline deployed in the SECURITY segment. Wazuh alerts are forwarded via webhook to Shuffle, enriched against the VirusTotal API, and automatically created as structured cases in TheHive — eliminating manual alert handling between detection and case management.
+
+See: [`/soar-pipeline/README.md`](./soar-pipeline/README.md)
+
+---
+
 ## 🦠 Malware Analysis Workflow
 
 Files are transferred to the air-gapped ISOLATED subnet using SCP from Tsurugi Linux (SECURITY subnet). Tsurugi is the only machine with SSH access to ISOLATED per firewall rules.
@@ -200,8 +212,12 @@ soc-home-lab/
 │   └── file-transfer-workflow.md  # SCP workflow from SECURITY to ISOLATED
 ├── dfir/
 │   └── tsurugi-setup.md           # Tsurugi Linux DFIR environment and tool inventory
-└── splunk/
-    └── splunk-setup.md            # Splunk install, Universal Forwarder, detection rules
+|── splunk/
+|   └── splunk-setup.md            # Splunk install, Universal Forwarder, detection rules
+└── soar-pipeline/
+|   ├── README.md                  # Pipeline architecture, decisions, and troubleshooting reference
+|   ├── SETUP-NOTES.md             # Full installation notes and component configuration
+|   └── screenshots/               # Pipeline evidence — enriched alerts, workflow canvas, Orborus status
 └── docs/
 ├── incident-reports/              # NIST SP 800-61 IR reports
 └── attack-detections/             # Attack simulations with Wazuh/Splunk detection evidence
@@ -228,7 +244,11 @@ soc-home-lab/
 | SIEM | Splunk Enterprise | 9.x | SECURITY |
 | SIEM Host | Ubuntu | 22.04 LTS | SECURITY |
 | EDR/XDR | Wazuh | 4.14.5 | SECURITY |
-| EDR Host | Ubuntu | 22.04 LTS | SECURITY |
+| SOAR/Case Management Host  | Ubuntu | 24.04 LTS | SECURITY |
+| SOAR | Shuffle | Latest | SECURITY |
+| Case Management | TheHive | 5.4.9 | SECURITY |
+| SOAR Database | OpenSearch | 3.2.0 | SECURITY |
+| Case Management Database | Cassandra | 4.1.x | SECURITY |
 
 ---
 
