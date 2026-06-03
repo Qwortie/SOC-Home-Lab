@@ -112,7 +112,7 @@ Description:
 
 *TheHive alert with embedded VirusTotal enrichment — created automatically by Shuffle within seconds of the Wazuh detection:*
 
-![TheHive enriched alert](./screenshots/thehive-enriched-alert.png)
+![TheHive enriched alert](./SOARalerts.png)
 
 ---
 
@@ -120,7 +120,7 @@ Description:
 
 *Three-node Shuffle workflow — Webhook trigger → VirusTotal enrichment → TheHive case creation:*
 
-![Shuffle workflow canvas](./screenshots/shuffle-workflow-canvas.png)
+![Shuffle workflow canvas](./Shuffle2.png)
 
 ---
 
@@ -128,7 +128,7 @@ Description:
 
 *Shuffle Orborus registered and running — confirms the workflow execution engine is active and connected to the backend:*
 
-![Orborus running](./screenshots/orborus-running.png)
+![Orborus running](./Orborus2.png)
 
 ---
 
@@ -227,5 +227,5 @@ Full installation notes, commands, and configuration files are documented in [SE
 ## Related Projects
 
 - [SOC-Home-Lab](../README.md) — Full lab architecture, network topology, and segment documentation
-- [Splunk Detection Rules](../splunk-detection-rules/) — Custom SPL rules organized by MITRE ATT&CK tactic
-- [IR Reports](../IR-Reports/) — Full incident response reports following NIST SP 800-61
+- [Attack Detections](../docs/attack-detections/README.md) — Full detection evidence captured from Wazuh XDR and Splunk SIEM
+- [IR Reports](../docs/incident-reports/README.md) — Full incident response reports following NIST SP 800-61
