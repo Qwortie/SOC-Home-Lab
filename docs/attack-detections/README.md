@@ -29,8 +29,8 @@ All attack techniques are mapped to the **MITRE ATT&CK** framework.
 
 | ID | Title | MITRE Technique | Tool | Platform | Pipeline | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| [ATK-001](./password-spray-kerbrute/README.md) | Kerberos Password Spray | T1110.003 | Kerbrute | Wazuh / Splunk | — | ✅ |
-| [ATK-002](./rdp-brute-force-soar-pipeline.md) | RDP Brute Force | T1110.001 | Hydra | Wazuh | Wazuh → Shuffle → TheHive | ✅ |
+| [ATK-001](https://github.com/Qwortie/SOC-Home-Lab/blob/main/docs/attack-detections/password-spray-kerbrute/README.md) | Kerberos Password Spray | T1110.003 | Kerbrute | Wazuh / Splunk | — | ✅ |
+| [ATK-002](https://github.com/Qwortie/SOC-Home-Lab/blob/main/docs/attack-detections/rdp-brute-force-soar-pipeline.md) | RDP Brute Force | T1110.001 | Hydra | Wazuh | Wazuh → Shuffle → TheHive | ✅ |
 
 ---
 
