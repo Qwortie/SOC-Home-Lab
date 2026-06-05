@@ -5,7 +5,7 @@
 **Target:** Win10-User1 (`10.80.80.11` — AD_LAB segment)
 **Tool:** Hydra
 **Protocol:** RDP (port 3389)
-**MITRE ATT&CK:** [T1110 — Brute Force](https://attack.mitre.org/techniques/T1110/) / [T1110.001 — Password Guessing](https://attack.mitre.org/techniques/T1110/001/)
+**MITRE ATT&CK:** [T1110.001 — Password Guessing](https://attack.mitre.org/techniques/T1110/001/) (Parent: [T1110 — Brute Force](https://attack.mitre.org/techniques/T1110/))
 
 ---
 
@@ -52,7 +52,7 @@ Rule:       60122
 Level:      5
 Description: Logon Failure - Unknown user or bad password
 Groups:     windows, windows_security, authentication_failed
-MITRE:      T1531 — Account Access Removal
+MITRE:      T1110.001 — Password Guessing (Wazuh default maps this to T1531 — incorrect)
 Agent:      Win10-User1 (10.80.80.11)
 Source IP:  10.0.0.2
 ```
@@ -168,6 +168,8 @@ The alert was created with zero manual intervention — the analyst opens TheHiv
 | Rule Frequency | 8+ failures | Confirms automated brute force pattern |
 
 **Verdict:** Confirmed brute force attack originating from the LAN management segment against a domain endpoint. Internal source IP with clean VT result is consistent with a compromised internal host or authorized red team activity. Escalate for investigation of the Kali host and review of lateral movement paths from LAN to AD_LAB.
+
+> **Note on MITRE mapping:** Wazuh's default ruleset maps rule 60122 to T1531 (Account Access Removal). This is incorrect — T1531 covers adversaries deleting or disabling accounts to deny access, not failed logon attempts. The accurate technique for this attack pattern is **T1110.001 — Password Guessing**, a sub-technique of T1110 (Brute Force), since Hydra was attempting multiple passwords against a single target account.
 
 ---
 
