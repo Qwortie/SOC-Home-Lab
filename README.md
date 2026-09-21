@@ -7,7 +7,7 @@
 ![Framework](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-B22222?style=flat-square)
 ![SOAR](https://img.shields.io/badge/SOAR-Shuffle-FF6B35?style=flat-square)
 
-A fully virtualized Security Operations Center environment built on VirtualBox. The lab spans six isolated network segments covering enterprise network simulation, Active Directory attack/defense, malware analysis, DFIR, and SIEM operations — all routed through a pfSense firewall.
+A fully virtualized Security Operations Center environment built on VirtualBox. The lab spans six isolated network segments covering enterprise network simulation, Active Directory attack/defense, malware analysis, DFIR, and SIEM operations all routed through a pfSense firewall.
 
 ---
 
