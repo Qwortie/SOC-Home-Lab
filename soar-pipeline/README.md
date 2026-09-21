@@ -13,11 +13,11 @@ An automated detection-to-case pipeline that ingests Wazuh security alerts, enri
 ## Pipeline Overview
 
 ```
-Wazuh XDR/SIEM  (<wazuh_ip>)
+Wazuh XDR/SIEM  (10.10.10.3)
      │
      │  Webhook — JSON alert payload (level 3+)
      ▼
-Shuffle SOAR  (<soar_ip>:3001)
+Shuffle SOAR  (10.10.10.4:3001)
      │
      ├─── Http node → VirusTotal v3 API
      │         └── Malicious count, reputation score, country, tags
@@ -25,7 +25,7 @@ Shuffle SOAR  (<soar_ip>:3001)
      └─── Http node → TheHive API
                └── Pre-populated alert with embedded threat intel
                          ▼
-               TheHive Case Management  (<soar_ip>:9000)
+               TheHive Case Management  (10.10.10.4:9000)
                     └── Structured alert ready for analyst triage
 ```
 
